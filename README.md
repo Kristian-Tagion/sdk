@@ -4,7 +4,7 @@
 
 Tagion Studio is a cross-platform app that makes it easy to write and test smart contracts for Tagion network.
 
-## Latest Release - 2020.2
+# Latest Release
 
 > [Download Tagion Studio 2020.2](https://github.com/tagion/studio/releases)
 
@@ -18,15 +18,29 @@ In this release, CLI core modules are available as binaries. Modules include:
 * **DART Util** - inspecting the database
 * **Tagion Wallet** - sending and receiving tagions
 
+# Roadmap
 
-## Tutorials
+Have a feature suggestion? Write us in the [forum](https://forum.tagion.org/t/starting-tagion-studio-project/28).
+
+### 2020.3
+
+* Managing devnet state
+
+### 2020.4
+
+* Creating accounts
+* Priting money
+* Executing Funnel scripts
+
+# Tutorials
+
+Once desktop application is released, basic actions will become trivial. Though now, having only CLI tools, it may be difficult to start, so here are few tutorials that should help you understand what's what:
 
 * [Run devnet]()
 * [Print tagions]()
 * [Perform transactions]()
 
-
-## Release Cycle
+# Release Cycle
 
 We aim to release new version every month. All minor updates and fixes published between releases will increment the version of that release.
 
@@ -42,10 +56,11 @@ Examples of release names:
 * **2020.2a1** First alpha release for March, 2020
 * **2020.9p3** Third patch for final release for September, 2020
 
-## Maintainers
+# Maintainers
 
-- [@vladpazych](https://github.com/vladpazych)
+* [@vladpazych](https://github.com/vladpazych)
 
-## How to Contribute
+# How to Contribute
 
 Starting from release 2020.3, the contribution process will be defined. Until then, if you have suggestions or questions, please feel free to write us in the [forum](https://forum.tagion.org/t/starting-tagion-studio-project/28).
+
