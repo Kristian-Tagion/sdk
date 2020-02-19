@@ -27,6 +27,7 @@ cd ./tagion-sdk
 ### Step 2. Build the Docker Image
 
 ``` bash
+cd ./tagion-sdk
 docker build -t tagion-sdk-core .
 ```
 
