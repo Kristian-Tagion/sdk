@@ -2,7 +2,7 @@
 
 # Tagion Studio
 
-Tagion Studio is a cross-platform app that makes it easy to write and test smart contracts for Tagion network.
+Tagion Studio is a cross-platform app that makes it easy to develop, test and debug scripts and applications for Tagion network.
 
 # Latest Release
 
