@@ -4,17 +4,19 @@
 
 Tagion Studio is a cross-platform app that makes it easy to write and test smart contracts for Tagion network.
 
-## Latest release - 2020.2
+## Latest Release - 2020.2
+
+> [Download Tagion Studio 2020.2](https://github.com/tagion/studio/releases)
 
 The desktop application is in early stages of development, and the basic usable client will be available starting from next release, 2020.3a1.
 
 In this release, CLI core modules are available as binaries. Modules include:
 
-* [Tagion Wave](#tagion-wave) - devnet CLI
-* [Tagion Util](#tagion-util) - printing tagions in devnet
-* [HiBON Util](#hibon-util) - HiBON to JSON to HiBON
-* [DART Util](#dart-util) - inspecting the database
-* [Tagion Wallet](#tagion-wallet) - sending and receiving tagions
+* **Tagion Wave** - devnet CLI
+* **Tagion Util** - printing tagions in devnet
+* **HiBON Util** - HiBON to JSON to HiBON
+* **DART Util** - inspecting the database
+* **Tagion Wallet** - sending and receiving tagions
 
 
 ## Tutorials
