@@ -18,20 +18,6 @@ In this release, CLI core modules are available as binaries. Modules include:
 * **DART Util** - inspecting the database
 * **Tagion Wallet** - sending and receiving tagions
 
-# Roadmap
-
-Have a feature suggestion? Write us in the [forum](https://forum.tagion.org/t/starting-tagion-studio-project/28).
-
-### 2020.3
-
-* Managing devnet state
-
-### 2020.4
-
-* Creating accounts
-* Priting money
-* Executing Funnel scripts
-
 # Tutorials
 
 Once desktop application is released, basic actions will become trivial. Though now, having only CLI tools, it may be difficult to start, so here are few tutorials that should help you understand what's what:
@@ -55,6 +41,20 @@ Examples of release names:
 
 * **2020.2a1** First alpha release for March, 2020
 * **2020.9p3** Third patch for final release for September, 2020
+
+# Roadmap
+
+Have a feature suggestion? Write us in the [forum](https://forum.tagion.org/t/starting-tagion-studio-project/28).
+
+### 2020.3
+
+* Manage devnet state (start and stop)
+
+### 2020.4
+
+* Create key pairs for wallet
+* Print money to a wallet
+* Execute custom Funnel scripts
 
 # Maintainers
 
