@@ -1,30 +1,17 @@
 <a href="https://tagion.org"><img alt="tagion logo" src="https://github.com/tagion/resources/raw/master/branding/logomark.svg?sanitize=true" alt="tagion.org" height="60"></a>
 
-# Tagion Studio
+# Tagion SDK
 
-Tagion Studio is a cross-platform app that makes it easy to develop, test and debug scripts and applications for Tagion network.
+Tagion SDK is a cross-platform development kit that makes it easy to develop, test and debug scripts and applications for Tagion network.
 
 # Latest Release
 
-> [Download Tagion Studio 2020.2](https://github.com/tagion/studio/releases)
+> Release 2020.2 does not include any GUI ~~because nobody on the team knows how to interact with those futuristic 'visual interfaces' made for millennials~~. We invite you to the [`./core`](./core) directory to learn how to interact with core CLI directly, ~~like all the real devs do~~.
 
-The desktop application is in early stages of development, and the basic usable client will be available starting from next release, 2020.3a1.
+The cross-platform desktop application with GUI is in early stages of development, and the basic usable client will be available starting from next release, 2020.3a1.
 
-In this release, CLI core modules are available as binaries. Modules include:
+In this release, SDK Core modules are available as binaries.
 
-* **Tagion Wave** - devnet CLI
-* **Tagion Util** - printing tagions in devnet
-* **HiBON Util** - HiBON to JSON to HiBON
-* **DART Util** - inspecting the database
-* **Tagion Wallet** - sending and receiving tagions
-
-# Tutorials
-
-Once desktop application is released, basic actions will become trivial. Though now, having only CLI tools, it may be difficult to start, so here are few tutorials that should help you understand what's what:
-
-* [Run devnet]()
-* [Print tagions]()
-* [Perform transactions]()
 
 # Release Cycle
 
