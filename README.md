@@ -2,62 +2,48 @@
 
 # Tagion Studio
 
-Tagion Studio is a set of tools for developers, to run a dev-net, execute scripts and inspecting the database.
-
-You can ask questions and help us by suggesting new ideas and reporting bugs on our [official public forum](https://forum.tagion.org/tag/tagion-core).
+Tagion Studio is a cross-platform app that makes it easy to write and test smart contracts for Tagion network.
 
 ## Latest release - 2020.2
 
 The desktop application is in early stages of development, and the basic usable client will be available starting from next release, 2020.3a1.
 
-In this release, only CLI [core modules](#core-modules) are available.
+In this release, CLI core modules are available as binaries. Modules include:
 
-## Monthly Release Cycle
+* [Tagion Wave](#tagion-wave) - devnet CLI
+* [Tagion Util](#tagion-util) - printing tagions in devnet
+* [HiBON Util](#hibon-util) - HiBON to JSON to HiBON
+* [DART Util](#dart-util) - inspecting the database
+* [Tagion Wallet](#tagion-wallet) - sending and receiving tagions
 
-Tagion studio version naming explained:
-
-The naming of the release represents the year, month and a version:
-
-* `a` - alpha release
-* `b` - beta release
-* `f` - final release
 
 ## Tutorials
 
-* [Getting Started]()
-* [Run Tagion Wave]()
-* [Print Money]()
-* [Send/Receive Money]()
+* [Run devnet]()
+* [Print tagions]()
+* [Perform transactions]()
 
-## Core Modules
 
-All core modules will be open-sourced in Q3 2020. Until then, only binaries will be available for the public.
+## Release Cycle
 
-* [Tagion Wave](#tagion-wave)
-* [Tagion Util](#tagion-util)
-* [HiBON Util](#hibon-util)
-* [DART Util](#dart-util)
-* [Tagion Wallet](#tagion-wallet)
+We aim to release new version every month. All minor updates and fixes published between releases will increment the version of that release.
 
-### Tagion Wave
+The naming of the release represents the year, month and a version:
 
-Tagion Node software
+* **a** - alpha release
+* **b** - beta release
+* **f** - final release
+* **p** - patch for final release
 
-### Tagion Util
+Examples of release names:
 
-Generates bills from a signature.
+* **2020.2a1** First alpha release for March, 2020
+* **2020.9p3** Third patch for final release for September, 2020
 
-It's jut for demo purposes to print money. Adding data to genesis block.
+## Maintainers
 
-### HiBON Util
+- [@vladpazych](https://github.com/vladpazych)
 
-General tool for converting jsonnd signing
+## How to Contribute
 
-### DART Util
-
-Utility to read and write to DART 
-
-### Tagion Wallet
-
-CLI to create accounts, sending tagions and restoring password.
-
+Starting from release 2020.3, the contribution process will be defined. Until then, if you have suggestions or questions, please feel free to write us in the [forum](https://forum.tagion.org/t/starting-tagion-studio-project/28).
