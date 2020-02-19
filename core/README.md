@@ -27,14 +27,12 @@ cd ./tagion-sdk
 ### Step 2. Build the Docker Image
 
 ``` bash
-cd ./core
 docker build -t tagion-sdk-core .
 ```
 
 ### Step 3. Run the Docker Image
 
 ``` bash
-cd ./core
 docker run -it tagion-sdk-core
 
 # Or, if you need, mount current volume to the container:
