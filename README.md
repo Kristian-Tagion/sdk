@@ -26,7 +26,7 @@ The naming of the release represents the year, month and a version:
 
 Examples of release names:
 
-* **2020.2a1** First alpha release for March, 2020
+* **2020.3a1** First alpha release for March, 2020
 * **2020.9p3** Third patch for final release for September, 2020
 
 # Roadmap
