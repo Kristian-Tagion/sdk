@@ -35,13 +35,13 @@ Have a feature suggestion? Write us in the [forum](https://forum.tagion.org/t/st
 
 ### 2020.3
 
-* Manage devnet state (start and stop)
+* Manage devnet state (start and stop) in the GUI
 
 ### 2020.4
 
-* Create key pairs for wallet
-* Print money to a wallet
-* Execute custom Funnel scripts
+* Create key pairs for wallet in the GUI
+* Print money to a wallet in the GUI
+* Execute custom Funnel scripts in the GUI
 
 # Maintainers
 
