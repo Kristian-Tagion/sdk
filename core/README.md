@@ -40,7 +40,7 @@ docker run -it tagion-sdk-core
 docker run -it -v $PWD/:/tagion tagion-sdk-core
 
 # Or any other volume via absolute path to it:
-docker run -it -v /any-other-volume/:/tagion tagion-sdk-core
+docker run -it -v /any-other-volume/:/some-container-voume tagion-sdk-core
 ```
 
 ### Step 4. Use CLI Tools
