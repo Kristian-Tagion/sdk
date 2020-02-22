@@ -6,6 +6,7 @@ WORKDIR /tagion/
 
 COPY . .
 
-ENV PATH="/tagion/utils/dart:/tagion/utils/hibon:/tagion/utils/tagion:${PATH}"
+ENV GODEBUG=cgocheck=0
+ENV PATH="/tagion/devnet:/tagion/wallet:/tagion/utils/dart:/tagion/utils/hibon:/tagion/utils/tagion:${PATH}"
 
-WORKDIR /workspace
+WORKDIR /workspace/
