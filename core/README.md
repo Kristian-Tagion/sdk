@@ -84,17 +84,30 @@ First, make sure you are in the `tagion-sdk-core` container:
 tagionwallet --help # Should output the help
 ```
 
-Now we will go in the `tagionwallet` ~~kinda~~ GUI mode to generate some wallets:
+Then we create two folders, one for each wallet. Let's name them `w1` and `w2` accordingly.
 
 ``` bash
-tagionwallet -g
+mkdir w1 w2
 ```
 
----
+Now we will go in the `tagionwallet` ~~kinda~~ GUI mode to create the wallets. We need to repeat the process two times for each wallet.
 
-Rename invoice to bills
+``` bash
+tagionwallet -g # Will enter the GUI mode
+```
 
-# Prepare the DART Database
+Press `c` to enter interactive mode and create the wallet. You will be asked to answer at least 3 security questions and enter a PIN code afterwards. With this security questions you can restore your wallet, in case you forgot the PIN code.
+
+Finally, your directory should look like this:
+
+```
+./w1/
+    ./tagionwallet.hibon
+./w2/
+    ./tagionwallet.hibon
+```
+
+# Prepare the Devnet
 
 To start the network we need to have the `.drt` file, this is the database file, that will be synced between the nodes and modified when the netwrok runs.
 
@@ -111,11 +124,43 @@ mkdir node0
 cp dart.drt ./node0
 ```
 
+We need to manually move the `genesis.hibon` to the first wallet, so it knows its bills.
+
+``` bash
+mv genesis.hibon w1/bills.hibon
+```
+
+Finally, your directory should look like this:
+
+```
+./genesis.hibon
+./dart.drt
+
+./node0/
+    ./dart.drt 
+./w1/
+    ./tagionwallet.hibon
+    ./bills.hibon
+./w2/
+    ./tagionwallet.hibon
+```
+
+Now everything is ready to start a devnet.
+
 # Start the Devnet
 
 Now, we have the `.drt` database file, and we can start `tagionwave` that will spawn multiple nodes and sync the database between them. Once the devnet is started, we can send money between the wallets.
 
 The devnet will create a folder for each node, and keep the `.drt` database file in each of them. But we need to create the first folder, so at least one node does have the database.
+
+Open a separate console and ssh into the container we created:
+```bash
+docker container ls # Will show you the list of continaer
+
+# Replace <CONTAINER_HASH> with the hash you
+# get from previous command (first colmn)
+docker exec -it <CONTAINER_HASH> bash # Will move you to the container
+```
 
 ``` bash
 pwd # Let's make sure we are in the correct folder
@@ -134,17 +179,33 @@ The network is running, good job making all this way! Now let's what we came her
 
 Now you have two wallets, and 1 million tagions on one of them. Let's send 500k to the other wallet.
 
-First, we need to create invoice from the second wallet (it will be fulfilled by the first wallet).
+
+
+You can see the contents of the `hibon` files using `hibonutil` :
 
 ``` bash
+# Will convert to JSON and output formatted in the console
+hibonutil genesis.hibon -p 
 ```
+  
+
+Now, we need to create invoice from the second wallet (it will be fulfilled by the first wallet).
+
+``` bash
+cd w2
+tagionwallet -g # Enter GUI to generate invoice
+```
+
+You need to enter the pincode of the second wallet, in this example we used **2222**, and press `i` to generate invoice. Enter invoice name, amount and then quit the `tagionwallet` by pressing `ctrl + c` 
 
 Now let's pay the invoice:
 
-```bash
+``` bash
+cd w1
+tagionwallet --pay ../w2/invoice.hibon --pin 1111 -s
 ```
 
-Yay, you just sent the contract that transfers half of your tagions to the second wallet. In console where the network is running, you should see the output.
+This command will create the executable contract, sign it and send to the devnet that should be running in your container by now. The devnet node will gossip the transaction to the rest of the nodes and in a few seconds, after consensus is reached, the database will be modified.
 
-## Update Balance
+Let's check the ballances of both wallets now.
 
