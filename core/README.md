@@ -1,14 +1,17 @@
 # Tagion SDK Core
 
 
-This is back-end of the Tagion SDK. We recommend interacting with CLI tools via Docker.
+This is back-end of the Tagion SDK. There are command-line utilities and the devnet program.
+
+To quickly test the money transfer process on the devnet you just need to follow two guides:
+
+1. [Run the Devnet Container](#run-the-devnet-container)
+2. [Bootstrap Configuration](#bootstrap-configuration)
 
 ## Table of Contents
 - [Tagion SDK Core](#tagion-sdk-core)
   - [Table of Contents](#table-of-contents)
   - [Directory Overview](#directory-overview)
-- [FAQ [NEED POLISH]](#faq-need-polish)
-- [Guide [NEED POLISH]](#guide-need-polish)
 - [Run the Devnet Container](#run-the-devnet-container)
     - [Step 1. Clone SDK Repository](#step-1-clone-sdk-repository)
     - [Step 2. Build the Docker Image](#step-2-build-the-docker-image)
@@ -34,20 +37,6 @@ This is back-end of the Tagion SDK. We recommend interacting with CLI tools via 
 ./wallet/ # CLI tool to send and receive Tagion bills
 ```
 
-# FAQ [NEED POLISH]
-
-What is Invoice?
-
-What is Devnet?
-It's a real node software running in the developer mode, spawning multiple nodes automatically.
-
-How the nodes are communicating?
-Locally, via websockets connecting to ports.
-
-# Guide [NEED POLISH]
-
-In this guide we will use CLI utilities to create two wallet instances, put some initial money to one of them, send some of those money to the other wallet, by sending the contract to the devnet thus modifying the database.
-
 # Run the Devnet Container
 
 If you don't have Docker installed, please follow [official installation guide](https://docs.docker.com/get-started/).
@@ -71,52 +60,74 @@ docker build -t tagion-sdk-core .
 ``` bash
 docker run -it tagion-sdk-core
 
-# Or mount your project folder to container workspace:
+# Or mount your project folder to container workspace,
+# to keep the state of the container on your machine
 cd ./my-project
 docker run -it -v $PWD/:/workspace tagion-sdk-core
 ```
 
 ### Step 4. Try CLI Tools
 
-Now you are in the Devnet container. You can use all the utils, like that:
+Now you are in the devnet container. You can use all the utils, like that:
 
 ``` bash
 hibonutil --help
 tagionutil --help
 ```
 
-You can run the Devnet from here, and use the Wallet CLI.
+You can run the devnet from here, and use the Wallet CLI.
 
 # Bootstrap Configuration
 
-We prepared a quick configuration for you, if you just want to try wallet CLI, sending some money back and forth.
+We prepared a quick configuration for you, so you can try wallet CLI, sending some money back and forth, without going through the whole process of preparing the devnet.
 
-In the bootstrap setup we have 4 wallets in the directories from `w1` to `w4`, each one has the pin `1111`. The `w1` has some money on it, the other 3 do not.
+In the bootstrap setup we have 4 wallets in the directories from `w1` to `w4`, each one has the pin `1111`. The `w1` has some money on it, the other 3 do not. The directory `node0` has initial genesis DART database, with the Tagion bills (money) for the `w1`.
 
-Let's run the Docker container you have built in the previous step:
+In this simple guide, we will transfer money from `w1` to `w2` and check the balances of each wallet.
+
+**Let's begin!**
+
+We will need two terminal windows for this guide - one for the devnet and the other for interacting with Wallet CLI. 
+
+**In the first terminal**, run the Docker container that you have built in the previous step:
 
 ``` bash
-# We are not mounting the volume this time
-docker run -it tagion-sdk-core 
+# We are not mounting the volume this time,
+# and we are naming the container for later use
+docker run -it --name tagion tagion-sdk-core 
 ```
 
-Now let's use `bootstrap` script to get all the needed files in the `/workspace` directory and start the devnet.
+Now, use `bootstrap` script to get all the needed files in the `/workspace` directory and start the devnet.
 
 ``` bash
 bootstrap # Will copy all the needed files
 devnet # Will start the devnet
 ```
 
-Next, we need to open another terminal session and ssh in the same container, where the devnet is running. Open new terminal and do the following:
+Next, open another terminal session and ssh into the same container, where the devnet is running. Leave the devnet running in the first terminal.
+
+**In the second terminal:**
 
 ``` bash
-docker container ls # Will output the list of running docker containers
-# Copy the hash or the alias name of the tagion-sdk-core container
-docker exec -it <PASTE HASH HERE> bash
-# Now you should be in the container's /workspace directory
+# We can use 'tagion' as a name, because 
+# we named the container in the first step:
+docker exec -it tagion bash 
 ```
 
-Now we can you `demo_send` script to send money from one waller to another:
+Use this terminal to interact with Wallet CLI going further.
+
+--- 
+
+First, let's check the balance of the `w1`, it should have 50000 TGN.
+
+``` bash
+cd ./w1
+tagionwallet -g # Opening GUI to see the balance
+```
+
+Now you are ready to send some money around.
+
+Use `demo_send` script to send money from one waller to another:
 
 ``` bash
 demo_send w1 w2 500 # We are sending 500 TGN from w1 to w2
@@ -131,19 +142,21 @@ signed  true pkey=025a87708536aa5bec75d635bf162a6334e416f14334c251fb045b2525b6c5
 500 TGN sent from w1 to w2
 ```
 
-Now, if you look closely in the logs of the devnet that is running in another terminal session, you will see the logs about the money transfer.
+If you look closely at the logs of the devnet that is running in another terminal session, you should notice the logs about this money transfer. 
+
+Under the hood, `w1` just generated a contract and sent it to one of the devnet nodes. The node then gossiped the transaction to other nodes and eventually, every node got the same graph of events, without any synchronization, thanks to Hashgrpah algorithm. Once the epoch in the Hashgraph was completed, each node updated its local DART file, creating a new Tagion bill, with public key, managed by `w2`. Now only `w2` can spend that new Tagion bill.
 
 Wait for at least 30 seconds and check the balance of `w2`:
 
 ``` bash
-cd ./w1
+cd ./w2
 tagionwallet --update # Sync wallet with the database of devnet
 tagionwallet -g # Enter the GUI to see the balance  
 ```
 
-If you don't see the balance changed, wait for another 20-30 seconds and repeat the process.
+If you don't see the balance changed, wait for another 20-30 seconds and repeat the process. You can do the same with `w1` to see the amount changed.
 
-**Congratulations!** You just made the money transfer on the devnet with very early versions of dev tools. If you like to get your hands dirty, follow the manual devnet configuration guide below.
+**Congratulations!** You just made the money transfer on the devnet with very early versions of dev tools. If you'd like to get your hands even dirtier, follow the manual devnet configuration guide below.
 
 # Manual Devnet Configuration
 
