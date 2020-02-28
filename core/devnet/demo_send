@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd $2
+tagionwallet --invoice ../$1/$1-to-$2.hibon --pin 1111 --create-invoice DEMO:$3
+cd ../$1 
+tagionwallet --pay ./$1-to-$2.hibon --pin 1111 -s
+rm ./$1-to-$2.hibon
+cd ../
+echo $3 TGN sent from $1 to $2

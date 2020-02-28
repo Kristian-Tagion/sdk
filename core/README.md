@@ -1,8 +1,27 @@
 # Tagion SDK Core
 
-> **The docs are in development, please don't follow the guide just yet.**
 
 This is back-end of the Tagion SDK. We recommend interacting with CLI tools via Docker.
+
+## Table of Contents
+- [Tagion SDK Core](#tagion-sdk-core)
+  - [Table of Contents](#table-of-contents)
+  - [Directory Overview](#directory-overview)
+- [FAQ [NEED POLISH]](#faq-need-polish)
+- [Guide [NEED POLISH]](#guide-need-polish)
+- [Run the Devnet Container](#run-the-devnet-container)
+    - [Step 1. Clone SDK Repository](#step-1-clone-sdk-repository)
+    - [Step 2. Build the Docker Image](#step-2-build-the-docker-image)
+    - [Step 3. Run the Docker Image](#step-3-run-the-docker-image)
+    - [Step 4. Try CLI Tools](#step-4-try-cli-tools)
+- [Bootstrap Configuration](#bootstrap-configuration)
+- [Manual Devnet Configuration](#manual-devnet-configuration)
+  - [Create Two Wallets](#create-two-wallets)
+  - [Prepare the Devnet](#prepare-the-devnet)
+  - [Start the Devnet](#start-the-devnet)
+  - [Send Tagions Between Wallets](#send-tagions-between-wallets)
+
+
 
 ## Directory Overview
 
@@ -57,7 +76,7 @@ cd ./my-project
 docker run -it -v $PWD/:/workspace tagion-sdk-core
 ```
 
-### Step 4. Use CLI Tools
+### Step 4. Try CLI Tools
 
 Now you are in the Devnet container. You can use all the utils, like that:
 
@@ -68,7 +87,69 @@ tagionutil --help
 
 You can run the Devnet from here, and use the Wallet CLI.
 
-# Create Two Wallets
+# Bootstrap Configuration
+
+We prepared a quick configuration for you, if you just want to try wallet CLI, sending some money back and forth.
+
+In the bootstrap setup we have 4 wallets in the directories from `w1` to `w4`, each one has the pin `1111`. The `w1` has some money on it, the other 3 do not.
+
+Let's run the Docker container you have built in the previous step:
+
+``` bash
+# We are not mounting the volume this time
+docker run -it tagion-sdk-core 
+```
+
+Now let's use `bootstrap` script to get all the needed files in the `/workspace` directory and start the devnet.
+
+``` bash
+bootstrap # Will copy all the needed files
+devnet # Will start the devnet
+```
+
+Next, we need to open another terminal session and ssh in the same container, where the devnet is running. Open new terminal and do the following:
+
+``` bash
+docker container ls # Will output the list of running docker containers
+# Copy the hash or the alias name of the tagion-sdk-core container
+docker exec -it <PASTE HASH HERE> bash
+# Now you should be in the container's /workspace directory
+```
+
+Now we can you `demo_send` script to send money from one waller to another:
+
+``` bash
+demo_send w1 w2 500 # We are sending 500 TGN from w1 to w2
+```
+
+You should get output like this:
+
+```
+0] b.owner        025a87708536aa5bec75d635bf162a6334e416f14334c251fb045b2525b6c5e3d6
+0] account        025a87708536aa5bec75d635bf162a6334e416f14334c251fb045b2525b6c5e3d6
+signed  true pkey=025a87708536aa5bec75d635bf162a6334e416f14334c251fb045b2525b6c5e3d6
+500 TGN sent from w1 to w2
+```
+
+Now, if you look closely in the logs of the devnet that is running in another terminal session, you will see the logs about the money transfer.
+
+Wait for at least 30 seconds and check the balance of `w2`:
+
+``` bash
+cd ./w1
+tagionwallet --update # Sync wallet with the database of devnet
+tagionwallet -g # Enter the GUI to see the balance  
+```
+
+If you don't see the balance changed, wait for another 20-30 seconds and repeat the process.
+
+**Congratulations!** You just made the money transfer on the devnet with very early versions of dev tools. If you like to get your hands dirty, follow the manual devnet configuration guide below.
+
+# Manual Devnet Configuration
+
+If you want to go deep and configure the devnet manually, follow this guide. We will create two wallets, generate genesis file that puts some money on one of the wallets and will start the devnet. After that, you can use `tagionwallet` directly to create invoices and fulfill them via another wallet.
+
+## Create Two Wallets
 
 Tagion does not have the account system, like most blockchains do. Instead, we store the bills in the database. The wallet software manages the keys for those bills, so you can send them.
 
@@ -76,7 +157,7 @@ The `tagionwallet` util has a developer-friendly interface. You can create multi
 
 Currently, in order to send money from one wallet to another, the sender must know the public key of the receiver. We use **invoices** for it. The recevier must generate the invoice, that will be fulfilled by the sender.
 
-## Let's Create the Wallets
+**Let's create some Wallets!**
 
 First, make sure you are in the `tagion-sdk-core` container:
 
@@ -107,11 +188,35 @@ Finally, your directory should look like this:
     ./tagionwallet.hibon
 ```
 
-# Prepare the Devnet
+## Prepare the Devnet
 
 To start the network we need to have the `.drt` file, this is the database file, that will be synced between the nodes and modified when the netwrok runs.
 
 By default, there is no money in the network, so we need to create a **genesis invoice** and generate a `.drt` file from it, so the wallets we created previously has some money on them.
+
+```bash
+cd ./w1
+# Enter GUI mode and generate an invoice for any sum
+tagionwallet -g 
+# Enter Pincode
+# Press 'a' to enter account
+# Press 'i' to enter invoice mode
+# Type invoice label, press enter and fill the sum of money to generate
+# Quit the GUI by pressing ctrl+c
+ls # Now you should see added invoice.hibon
+# You see the contents of this file by typing
+hibonutil ./invoice.hibon -p
+```
+
+Now we need to convert the invoice to the genesis file:
+
+``` bash
+cd ../ # Exit the w1 folder
+pwd # Should output '/workspace'
+tagionutil -i ./w1/invoice.hibon ./genesis.hibon
+```
+
+Now we will generate a dart database based on the genesis file:
 
 ``` bash
 dartutil --initialize --dartfilename dart.drt -i genesis.hibon --modify
@@ -147,7 +252,7 @@ Finally, your directory should look like this:
 
 Now everything is ready to start a devnet.
 
-# Start the Devnet
+## Start the Devnet
 
 Now, we have the `.drt` database file, and we can start `tagionwave` that will spawn multiple nodes and sync the database between them. Once the devnet is started, we can send money between the wallets.
 
@@ -173,7 +278,7 @@ mkdir node0 # Creating a directory for the first node
 cp 
 ```
 
-# Send Tagions Between Wallets
+## Send Tagions Between Wallets
 
 The network is running, good job making all this way! Now let's what we came here to do - move millions of tagions around.
 
