@@ -6,7 +6,7 @@ This is back-end of the Tagion SDK. There are command-line utilities and the dev
 To quickly test the tagions transfer process on the devnet you just need to follow two guides:
 
 1. [Run the Devnet Container](#run-the-devnet-container)
-2. [Bootstrap Configuration](#bootstrap-configuration)
+2. [Bootstrap Configuration (Easy Way)](#bootstrap-configuration-easy-way)
 
 ## Table of Contents
 - [Tagion SDK Core](#tagion-sdk-core)
