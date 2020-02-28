@@ -156,7 +156,7 @@ tagionwallet -g # Enter the GUI to see the balance
 
 If you don't see the balance changed, wait for another 20-30 seconds and repeat the process. You can do the same with `w1` to see the amount changed.
 
-**Congratulations!** You just made the money transfer on the devnet with very early versions of dev tools. If you'd like to get your hands even dirtier, follow the manual devnet configuration guide below.
+**Congratulations!** You just made the money transfer on the devnet with very early versions of dev tools. If you'd like to get your hands even more dirty, follow the manual devnet configuration guide below.
 
 # Manual Devnet Configuration
 
