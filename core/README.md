@@ -145,7 +145,7 @@ signed  true pkey=025a87708536aa5bec75d635bf162a6334e416f14334c251fb045b2525b6c5
 
 If you look closely at the logs of the devnet that is running in another terminal session, you should notice the logs about this transfer. 
 
-Under the hood, `w1` just generated a contract and sent it to one of the devnet nodes. The node then gossiped the transaction to other nodes and eventually, every node got the same graph of events, without any synchronization, thanks to Hashgrpah algorithm. Once the epoch in the Hashgraph was completed, each node updated its local DART file, creating a new Tagion bill, with public key, managed by `w2`. Now only `w2` can spend that new Tagion bill.
+Under the hood, `w1` just generated a contract and sent it to one of the devnet nodes. The node then gossiped the transaction to other nodes and eventually, every node got the same graph of events, without any synchronization, thanks to the Hashgraph algorithm. Once the epoch in the Hashgraph was completed, each node updated its local DART file, creating a new Tagion bill, with public key, managed by `w2`. Now only `w2` can spend that new Tagion bill.
 
 Wait for at least 30 seconds and check the balance of `w2`:
 
@@ -165,7 +165,7 @@ If you want to go deep and configure the devnet manually, follow this guide. We 
 
 ## Create Two Wallets
 
-Tagion does not have the account system, like most blockchains do. Instead, we store the bills in the database. The wallet software manages the keys for those bills. You can 'spend' the bills using the Tagion compatible wallet, in our case - Wallet CLI.
+Tagion does not have an account system, like most blockchains do. Instead, we store the bills in the database. The wallet software manages the keys for those bills. You can 'spend' the bills using the Tagion compatible wallet, in our case - Wallet CLI.
 
 To send tagions from one wallet to another, the sender must know the public key of the receiver. Currently, we use primitive system of **invoices** for this. The receiver must generate the invoice, that will be fulfilled by the sender.
 
@@ -197,7 +197,7 @@ Now we will go in the `tagionwallet` ~~kinda~~ GUI mode to create wallet configs
 tagionwallet -g # Will enter the GUI mode
 ```
 
-Press `c` to enter interactive mode and create the wallet. You will be asked to answer at least 3 security questions and enter a PIN code afterwards. With this security questions you can restore your wallet, in case you forgot the PIN code. (not yet implemented, so just type any answer).
+Press `c` to enter interactive mode and create the wallet. You will be asked to answer at least 3 security questions and enter a PIN code afterwards. With the security questions you can restore your wallet, in case you forgot the PIN code (not yet implemented, so just type any answer).
 
 Finally, your directory should look like this:
 
@@ -210,9 +210,9 @@ Finally, your directory should look like this:
 
 ## Prepare the Devnet
 
-To start the network we need to have the `.drt` file. It is the database file, that will be synced between the nodes and modified when the network runs.
+To start the network we need to have the `.drt` file. It is the database file that will be synced between the nodes and modified when the network runs.
 
-By default, there is no tagions in the network, so we need to create a **genesis invoice** by one of the wallets and generate an initial  `.drt` file from it. 
+By default, there are no tagions in the network, so we need to create a **genesis invoice** by one of the wallets and generate an initial  `.drt` file from it. 
 
 ```bash
 cd ./w1
@@ -271,7 +271,7 @@ Finally, your directory should look like this:
     ./tagionwallet.hibon
 ```
 
-Perfect! Now everything is ready to start a devnet.
+Perfect! Now everything is ready for starting a devnet.
 
 ## Start the Devnet
 
@@ -314,7 +314,7 @@ cd ../w1
 tagionwallet --pay ../w2/invoice.hibon --pin <PIN> -s
 ```
 
-Under the hood, `w1` just generated a contract and sent it to one of the devnet nodes. The node then gossiped the transaction to other nodes and eventually, every node got the same graph of events, without any synchronization, thanks to Hashgrpah algorithm. Once the epoch in the Hashgraph was completed, each node updated its local DART file, creating a new Tagion bill, with public key, managed by `w2`. Now only `w2` can spend that new Tagion bill.
+Under the hood, `w1` just generated a contract and sent it to one of the devnet nodes. The node then gossiped the transaction to other nodes and eventually, every node got the same graph of events, without any synchronization, thanks to the Hashgraph algorithm. Once the epoch in the Hashgraph was completed, each node updated its local DART file, creating a new Tagion bill, with public key, managed by `w2`. Now only `w2` can spend that new Tagion bill.
 
 Let's check the ballance of both wallets now.
 
@@ -330,8 +330,8 @@ If you don't see the balance changed, wait for another 20-30 seconds and repeat 
 
 # Conclusion
 
-Congratulations completing the guide! Yes, it wasn't easy. We are in the early days, but this release has a lot of core parts working together: Hashgraph, gossip protocol, DART synchronization, wallet with key management. Each next release will be more and more polished and user-friendly. 
+Congratulations, you have completed the guide! Yes, it wasn't easy. We are in the early days, but this release has a lot of core parts working together: Hashgraph, gossip protocol, DART synchronization, and a wallet with key management. The next releases will become more polished, as we are gradually increasing user-friendliness and adding more features.
 
-New features are coming as well, so stay tuned and [leave a comment](https://forum.tagion.org/t/tagion-sdk-2020-2-release/28) on our forum. We want to hear your thoughts. Did you complete the guide? Was it too confusing or doable?
+Stay tuned and [leave a comment](https://forum.tagion.org/t/tagion-sdk-2020-2-release/28) on our forum. We want to hear your thoughts. Did you complete the guide? Or was it too confusing? We are greatful for any comments!
 
 
